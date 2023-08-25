@@ -19,10 +19,10 @@ def _stft(y, n_fft, hop_length, win_length, use_tensorflow=False):
 
 def _istft(y, n_fft, hop_length, win_length, use_tensorflow=False):
     if use_tensorflow:
-        # return librosa.istft(y, hop_length, win_length)
+        # return librosa.istft(y, hop_length=hop_length, win_length=win_length)
         return _istft_tensorflow(y.T, n_fft, hop_length, win_length)
     else:
-        return librosa.istft(y, hop_length, win_length)
+        return librosa.istft(y, hop_length=hop_length, win_length=win_length)
 
 
 def _stft_librosa(y, n_fft, hop_length, win_length):
@@ -32,7 +32,7 @@ def _stft_librosa(y, n_fft, hop_length, win_length):
 
 
 def _istft_librosa(y, hop_length, win_length):
-    return librosa.istft(y, hop_length, win_length)
+    return librosa.istft(y, hop_length=hop_length, win_length=win_length)
 
 
 def _stft_tensorflow(y, n_fft, hop_length, win_length):
@@ -268,7 +268,7 @@ def reduce_noise(
     )
     # fix the recovered signal length if padding signal
     if pad_clipping:
-        recovered_signal = librosa.util.fix_length(recovered_signal, nsamp)
+        recovered_signal = librosa.util.fix_length(recovered_signal, size=nsamp)
 
     recovered_spec = _amp_to_db(
         np.abs(
